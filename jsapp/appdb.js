@@ -1,4 +1,4 @@
-var appDb = (function () {
+const appDb = (function () {
 	const cachedUrnsId = 'cachedUrns';
 
 	let dbPromise = idb.open('app-datadb', 1, function (upgradeDb) {
@@ -28,7 +28,7 @@ var appDb = (function () {
 
 	function getCachedUrns() {
 		return dbPromise.then(function (db) {
-			var tx = tb.transaction('settings', 'readonly');
+			var tx = db.transaction('settings', 'readonly');
 			var store = tx.objectStore('settings');
 			return store.get('cachedUrns');
 		});

@@ -82,3 +82,8 @@ li.link-active a:focus {
 .top-panel {
 	margin-top: 12px;
 }
+
+.badge-offline {
+	background-color: red;
+}
+
