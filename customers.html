@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>FOTG - Customers</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="cssapp/stylesheet.css" />
+
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="main-nav">
+					<div class="navbar navbar-inverse">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" attr.aria-expanded="isExpanded" (click)="toggle()">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="#">Forge Off The Grid</a>
+						</div>
+						<div class="clearfix"></div>
+						<div id="navbarmenu" class="navbar-collapse collapse">
+							<ul class="nav navbar-nav">
+								<li>
+									<a href="index.html" onclick="collapse()">
+										<span class="glyphicon glyphicon-dashboard"></span> Dashboard
+									</a>
+								</li>
+								<li class="active">
+									<a href="#" onclick="collapse()">
+										<span class="glyphicon glyphicon-user"></span> Customers
+									</a>
+								</li>
+								<li>
+									<a href="spareparts.html" onclick="collapse()">
+										<span class="glyphicon glyphicon-tag"></span> Spare Parts
+									</a>
+								</li>
+								<li>
+									<a href="settings.html" onclick="collapse()">
+										<span class="glyphicon glyphicon-cog"></span> Settings
+									</a>
+								</li>
+								<li>
+									<a href="about.html" onclick="collapse()">
+										<span class="glyphicon glyphicon-info-sign"></span> About
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9 body-content">
+				<div class="container-fluid">
+					<div class="panel panel-primary top-panel">
+						<div class="panel-heading">
+							<h3>Customer List</h3>
+						</div>
+						<div class="panel-body">
+							<ul id="customerList" class="list-group">
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="assets/plugins/jquery/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="jsapp/generalutils.js"></script>
+
+	<script src="jsapp/appcommander.js"></script>
+	<script src="jsapp/index.js"></script>
+
+	<script>
+	
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('service-worker.js')
+				.then(function (registration) {
+					console.log('Service worker registration successful with scope: ' + registration.scope);
+				})
+				.catch(function (error) {
+					console.error('Service worker registration failed: ' + error);
+				});
+		}
+	
+	
+	</script>
+
+</body>
+
+</html>
+
