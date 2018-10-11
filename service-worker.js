@@ -8,7 +8,7 @@ const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '003';
 
 
 // const SERVER_PREFIX = '/';
-// const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
+const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
 
 
 var shellFilesToCache = [
