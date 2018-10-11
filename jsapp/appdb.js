@@ -39,8 +39,8 @@ const appDb = (function () {
 		return dbPromise.then(function (db) {
 			const tx = db.transaction('settings', 'readwrite');
 			const store = tx.objectStore('settings');
-			const data = createCachedUrnsObject(urns);
-			return store.put(data).catch(function (e) {
+			// const data = createCachedUrnsObject(urns);
+			return store.put(urns).catch(function (e) {
 				tx.abort();
 				console.error(e);
 			}).then(function () {

@@ -2,13 +2,15 @@
 'use strict';
 
 self.importScripts('jsapp/idb.js');
+self.importScripts('jsapp/appdb.js');
+
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
 const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '005';
 
 
-// const SERVER_PREFIX = '/';
-const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
+const SERVER_PREFIX = '/';
+// const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
 
 
 var shellFilesToCache = [
@@ -155,15 +157,25 @@ self.addEventListener('message', function (event) {
 });
 
 
-function messageAsync(event) {
+async function messageAsync(event) {
 	switch(event.data.command) {
 		case 'cacheModel':
 			cacheOn = event.data.data.cacheOn;
 			urnToCache = event.data.data.urn;
 			console.log(`caching status: ${cacheOn} ${urnToCache}`);
+			await addUrnToOffline(urnToCache);
 			event.ports[0].postMessage({ status: 'ok' });
 			break;
 		case '':
 			break;
 	}
 }
+
+
+
+async function addUrnToOffline(urn) {
+	const cacheData = await appDb.getCachedUrns();
+	cacheData.urns[urn] = true;
+	await appDb.setCachedUrns(cacheData);
+}
+
