@@ -20,26 +20,6 @@ function getModels() {
 
 
 
-
-document.getElementById('btnLoadModel1').addEventListener('click', async function (event) {
-	launchViewer2(urn);
-});
-
-
-document.getElementById('btnLoadModel2').addEventListener('click', async function (event) {
-	launchViewer2(urn2);
-});
-
-
-document.getElementById('btnLoadModel3').addEventListener('click', async function (event) {
-	launchViewer2(urn3);
-});
-
-document.getElementById('btnLoadModel4').addEventListener('click', async function (event) {
-	launchViewer2(urn4);
-});
-
-
 function launchViewer2(urn) {
 	console.log('setup caching first');
 	setupCaching(urn).then(function () {
@@ -67,10 +47,27 @@ async function setupCaching(urn) {
 }
 
 
+
+function getParentListItemContainer(element) {
+	let ret = element;
+	while (ret.nodeName !== 'LI') {
+		ret = ret.parentElement;
+	}
+
+	return ret;
+}
+
+
 document.getElementById('listModels').addEventListener('click', function (event) {
-	let itemUrn = event.target.getAttribute('data-urn');
-	launchViewer2(itemUrn);
+	const liElement = getParentListItemContainer(event.target);
+	if (liElement) {
+		let itemUrn = liElement.getAttribute('data-urn');
+		launchViewer2(itemUrn);
+	}
 });
+
+
+
 
 // <li class="list-group-item" data-urn="x">
 //     <span class="badge">Offline</span>
@@ -81,8 +78,6 @@ document.getElementById('listModels').addEventListener('click', function (event)
 //     <h5>Model 2</h5>
 //     <p>this is a description</p>
 // </li>
-
-
 
 (async function () {
 	let cachedUrns = await appDb.getCachedUrns();

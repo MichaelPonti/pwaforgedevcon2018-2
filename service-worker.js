@@ -4,11 +4,11 @@
 self.importScripts('jsapp/idb.js');
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '002';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '003';
 
 
-const SERVER_PREFIX = '/';
-// const SERVER_PREFIX = '/pwaforgedevcon2018/';
+// const SERVER_PREFIX = '/';
+// const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
 
 
 var shellFilesToCache = [
@@ -38,6 +38,7 @@ var shellFilesToCache = [
 	`${SERVER_PREFIX}cssapp/stylesheet.css`,
 	
 	`${SERVER_PREFIX}jsapp/appcommander.js`,
+	`${SERVER_PREFIX}jsapp/appdb.js`,
 	`${SERVER_PREFIX}jsapp/generalutils.js`,
 	`${SERVER_PREFIX}jsapp/idb.js`,
 	`${SERVER_PREFIX}jsapp/index.js`,
@@ -91,7 +92,7 @@ let urnToCache = null;
 
 
 async function fetchAsync(event) {
-	return fetch(event.request);
+	// return fetch(event.request);
 
 
 	if (event.request.url.endsWith('api/forgeviewerauth')) {
@@ -121,7 +122,11 @@ async function fetchAsync(event) {
 		await cacheRequest(event.request.url, freshResponse.clone());
 	}
 
-	return freshResponse;
+	if (freshResponse) {
+		return freshResponse;
+	} else {
+		return new Response();
+	}
 }
 
 
