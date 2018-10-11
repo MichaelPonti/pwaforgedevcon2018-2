@@ -4,7 +4,7 @@
 self.importScripts('jsapp/idb.js');
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '004';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '005';
 
 
 // const SERVER_PREFIX = '/';
