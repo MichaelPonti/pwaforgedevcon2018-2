@@ -6,7 +6,7 @@ self.importScripts('jsapp/appdb.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '010';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '013';
 
 
 const SERVER_PREFIX = '/';
@@ -177,6 +177,7 @@ async function messageAsync(event) {
 			break;
 		case 'deleteModel':
 			await cleanModelFromCacheAsync(event.data.data.urn);
+			event.ports[0].postMessage({ status: 'ok' });
 			break;
 		case '':
 			break;

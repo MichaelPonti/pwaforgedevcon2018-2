@@ -64,6 +64,7 @@ document.getElementById('listModels').addEventListener('click', async function (
 		if (badgeName === 'badgeOffline') {
 			const urn = event.target.getAttribute('data-urn');
 			await SwComms.deleteFromCache(urn);
+			await loadModelListAsync();
 			return;
 		}
 	}
