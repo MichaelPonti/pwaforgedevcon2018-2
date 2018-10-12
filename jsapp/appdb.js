@@ -13,6 +13,7 @@ const appDb = (function () {
 				console.log('creating app-settings object store');
 				var store = upgradeDb.createObjectStore('settings', { keyPath: 'id' });
 				store.add()
+				store.put({ id: cachedUrnsId, urns: [] });
 		}
 	});
 
