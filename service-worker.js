@@ -6,11 +6,11 @@ self.importScripts('jsapp/appdb.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '005';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '009';
 
 
-const SERVER_PREFIX = '/';
-// const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
+// const SERVER_PREFIX = '/';
+const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
 
 
 var shellFilesToCache = [
@@ -149,6 +149,15 @@ async function cacheRequest(url, response) {
 }
 
 
+async function cleanModelFromCacheAsync(urn) {
+	const cache = await caches.open('models');
+	const urls = await cache.keys();
+	const urlsToDelete = urls.filter(req => req.url.includes(urn));
+	await appDb.deleteCachedUrn(urn);
+	return Promise.all(urlsToDelete.map(req => cache.delete(req)));
+}
+
+
 
 
 self.addEventListener('message', function (event) {
@@ -165,6 +174,9 @@ async function messageAsync(event) {
 			console.log(`caching status: ${cacheOn} ${urnToCache}`);
 			await addUrnToOffline(urnToCache);
 			event.ports[0].postMessage({ status: 'ok' });
+			break;
+		case 'deleteModel':
+			await cleanModelFromCacheAsync(event.data.data.urn);
 			break;
 		case '':
 			break;

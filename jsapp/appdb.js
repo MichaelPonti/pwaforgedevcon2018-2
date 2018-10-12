@@ -49,9 +49,17 @@ const appDb = (function () {
 		});
 	}
 
+	async function deleteCachedUrn(urn) {
+		// something.
+		cacheData = await getCachedUrns();
+		delete cacheData.urns[urn];
+		await setCachedUrns(cacheData);
+	}
+
 
 	return {
 		getCachedUrns: (getCachedUrns),
-		setCachedUrns: (setCachedUrns)
+		setCachedUrns: (setCachedUrns),
+		deleteCachedUrn: (deleteCachedUrn)
 	}
 })();

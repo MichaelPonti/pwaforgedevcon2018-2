@@ -42,8 +42,15 @@ const SwComms = (function () {
 	}
 
 
+	function deleteFromCache(urn) {
+		const data = { urn: urn };
+		return genericServiceWorkComm('deleteModel', data);
+	}
+
+
 	return {
 		cacheModel: (cacheModel),
-		cacheOff: (cacheOff)
+		cacheOff: (cacheOff),
+		deleteFromCache: (deleteFromCache)
 	}
 })();

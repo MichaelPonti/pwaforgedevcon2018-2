@@ -58,7 +58,16 @@ function getParentListItemContainer(element) {
 }
 
 
-document.getElementById('listModels').addEventListener('click', function (event) {
+document.getElementById('listModels').addEventListener('click', async function (event) {
+	if (event.target.nodeName === 'SPAN') {
+		const badgeName = event.target.getAttribute('name');
+		if (badgeName === 'badgeOffline') {
+			const urn = event.target.getAttribute('data-urn');
+			await SwComms.deleteFromCache(urn);
+			return;
+		}
+	}
+
 	const liElement = getParentListItemContainer(event.target);
 	if (liElement) {
 		let itemUrn = liElement.getAttribute('data-urn');
@@ -78,8 +87,7 @@ document.getElementById('listModels').addEventListener('click', function (event)
 //     <h5>Model 2</h5>
 //     <p>this is a description</p>
 // </li>
-
-(async function () {
+async function loadModelListAsync() {
 	let cachedUrns = await appDb.getCachedUrns();
 	if (!cachedUrns) {
 		cachedUrns = {};
@@ -94,11 +102,52 @@ document.getElementById('listModels').addEventListener('click', function (event)
 	for (let i = 0; i < models.length; i++) {
 		let badge = '';
 		if (cachedUrns.urns.hasOwnProperty(models[i].urn)) {
-			badge = '<span class="badge badge-offline">Offline</span>'
+			// badge = '<span class="badge badge-offline">Offline</span>'
+			badge = `<span class="badge badge-offline" data-urn="${models[i].urn}" name="badgeOffline">Offline</span>`;
 		}
 		let item = `<li class="list-group-item" data-urn="${models[i].urn}">${badge}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
 		tags += item;
 	}
 
 	modelTag.innerHTML = tags;
+
+	attachBadgeHandlers();
+
+
+}
+
+function attachBadgeHandlers() {
+	const badges = document.getElementsByName('badgeOffline');
+	for (let i = 0; i < badges.length; i++) {
+		let urn = badges[i].getAttribute('data-urn');
+		badges[i].addEventListener('click', function () {
+			console.log(urn);
+		});
+	}
+}
+
+(async function () {
+	await loadModelListAsync();
+	// let cachedUrns = await appDb.getCachedUrns();
+	// if (!cachedUrns) {
+	// 	cachedUrns = {};
+	// 	cachedUrns[urn4] = true;
+	// 	await appDb.setCachedUrns(cachedUrns);
+	// }
+	// const models = getModels();
+	// const modelTag = document.getElementById('listModels');
+	// modelTag.innerHTML = '';
+
+	// let tags = '';
+	// for (let i = 0; i < models.length; i++) {
+	// 	let badge = '';
+	// 	if (cachedUrns.urns.hasOwnProperty(models[i].urn)) {
+	// 		// badge = '<span class="badge badge-offline">Offline</span>'
+	// 		badge = `<span class="badge badge-offline" data-urn="${models[i].urn}" name="badgeOffline">Offline</span>`;
+	// 	}
+	// 	let item = `<li class="list-group-item" data-urn="${models[i].urn}">${badge}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
+	// 	tags += item;
+	// }
+
+	// modelTag.innerHTML = tags;
 })();
