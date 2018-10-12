@@ -6,7 +6,7 @@ self.importScripts('jsapp/appdb.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '009';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '010';
 
 
 // const SERVER_PREFIX = '/';
