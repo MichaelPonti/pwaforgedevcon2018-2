@@ -6,7 +6,7 @@ self.importScripts('jsapp/appdb.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '015';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '017';
 
 
 const SERVER_PREFIX = '/';
@@ -189,6 +189,6 @@ async function messageAsync(event) {
 async function addUrnToOffline(urn) {
 	const cacheData = await appDb.getCachedUrns();
 	cacheData.urns[urn] = true;
-	await appDb.setCachedUrns(cacheData);
+	await appDb.setCachedUrns(cacheData.urns);
 }
 

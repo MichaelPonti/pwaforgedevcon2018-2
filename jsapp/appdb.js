@@ -12,7 +12,7 @@ const appDb = (function () {
 			case 1:
 				console.log('creating app-settings object store');
 				var store = upgradeDb.createObjectStore('settings', { keyPath: 'id' });
-				store.add();
+				store.add(createCachedUrnsObject({ }));
 		}
 	});
 
@@ -36,11 +36,12 @@ const appDb = (function () {
 
 
 	function setCachedUrns(urns) {
+
 		return dbPromise.then(function (db) {
 			const tx = db.transaction('settings', 'readwrite');
 			const store = tx.objectStore('settings');
-			//const data = createCachedUrnsObject(urns);
-			return store.put(urns).catch(function (e) {
+			const data = createCachedUrnsObject(urns);
+			return store.put(data).catch(function (e) {
 				tx.abort();
 				console.error(e);
 			}).then(function () {
@@ -56,10 +57,18 @@ const appDb = (function () {
 		await setCachedUrns(cacheData);
 	}
 
+	async function seedDataAsync() {
+		var data = await getCachedUrns();
+		if (!data || data === undefined) {
+			await setCachedUrns(createCachedUrnsObject({ }));
+		}
+	}
+
 
 	return {
 		getCachedUrns: (getCachedUrns),
 		setCachedUrns: (setCachedUrns),
-		deleteCachedUrn: (deleteCachedUrn)
+		deleteCachedUrn: (deleteCachedUrn),
+		seedDataAsync: (seedDataAsync)
 	}
 })();

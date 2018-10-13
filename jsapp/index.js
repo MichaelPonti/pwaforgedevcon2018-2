@@ -141,27 +141,6 @@ function attachBadgeHandlers() {
 }
 
 (async function () {
+	await appDb.seedDataAsync();
 	await loadModelListAsync();
-	// let cachedUrns = await appDb.getCachedUrns();
-	// if (!cachedUrns) {
-	// 	cachedUrns = {};
-	// 	cachedUrns[urn4] = true;
-	// 	await appDb.setCachedUrns(cachedUrns);
-	// }
-	// const models = getModels();
-	// const modelTag = document.getElementById('listModels');
-	// modelTag.innerHTML = '';
-
-	// let tags = '';
-	// for (let i = 0; i < models.length; i++) {
-	// 	let badge = '';
-	// 	if (cachedUrns.urns.hasOwnProperty(models[i].urn)) {
-	// 		// badge = '<span class="badge badge-offline">Offline</span>'
-	// 		badge = `<span class="badge badge-offline" data-urn="${models[i].urn}" name="badgeOffline">Offline</span>`;
-	// 	}
-	// 	let item = `<li class="list-group-item" data-urn="${models[i].urn}">${badge}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
-	// 	tags += item;
-	// }
-
-	// modelTag.innerHTML = tags;
 })();
