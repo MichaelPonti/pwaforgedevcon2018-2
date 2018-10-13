@@ -12,7 +12,7 @@ const appDb = (function () {
 			case 1:
 				console.log('creating app-settings object store');
 				var store = upgradeDb.createObjectStore('settings', { keyPath: 'id' });
-				store.add()
+				store.add();
 		}
 	});
 
@@ -39,7 +39,7 @@ const appDb = (function () {
 		return dbPromise.then(function (db) {
 			const tx = db.transaction('settings', 'readwrite');
 			const store = tx.objectStore('settings');
-			// const data = createCachedUrnsObject(urns);
+			//const data = createCachedUrnsObject(urns);
 			return store.put(urns).catch(function (e) {
 				tx.abort();
 				console.error(e);

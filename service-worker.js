@@ -6,11 +6,11 @@ self.importScripts('jsapp/appdb.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '014';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '015';
 
 
-// const SERVER_PREFIX = '/';
-const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
+const SERVER_PREFIX = '/';
+// const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
 
 
 var shellFilesToCache = [
@@ -94,7 +94,7 @@ let urnToCache = null;
 
 
 async function fetchAsync(event) {
-	// return fetch(event.request);
+	return fetch(event.request);
 
 
 	if (event.request.url.endsWith('api/forgeviewerauth')) {
