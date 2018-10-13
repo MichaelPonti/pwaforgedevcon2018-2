@@ -83,7 +83,18 @@ li.link-active a:focus {
 	margin-top: 12px;
 }
 
-.badge-offline {
+.badge-clear {
 	background-color: red;
+	cursor: pointer;
+}
+
+.badge-open {
+	background-color: blue;
+	cursor: pointer;
+}
+
+.badge-download {
+	background-color: black;
+	cursor: pointer;
 }
 

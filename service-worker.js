@@ -6,11 +6,11 @@ self.importScripts('jsapp/appdb.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '013';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '014';
 
 
-const SERVER_PREFIX = '/';
-// const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
+// const SERVER_PREFIX = '/';
+const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
 
 
 var shellFilesToCache = [

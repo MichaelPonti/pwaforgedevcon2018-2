@@ -61,19 +61,27 @@ function getParentListItemContainer(element) {
 document.getElementById('listModels').addEventListener('click', async function (event) {
 	if (event.target.nodeName === 'SPAN') {
 		const badgeName = event.target.getAttribute('name');
-		if (badgeName === 'badgeOffline') {
-			const urn = event.target.getAttribute('data-urn');
-			await SwComms.deleteFromCache(urn);
-			await loadModelListAsync();
-			return;
+		const urn = event.target.getAttribute('data-urn');
+		switch(badgeName) {
+			case 'badgeDownload':
+				console.log('badgeDownload pressed');
+				break;
+			case 'badgeClear':
+				// const urn = event.target.getAttribute('data-urn');
+				await SwComms.deleteFromCache(urn);
+				await loadModelListAsync();
+				break;
+			case 'badgeOpen':
+				launchViewer2(urn);
+				break;
 		}
 	}
 
-	const liElement = getParentListItemContainer(event.target);
-	if (liElement) {
-		let itemUrn = liElement.getAttribute('data-urn');
-		launchViewer2(itemUrn);
-	}
+	// const liElement = getParentListItemContainer(event.target);
+	// if (liElement) {
+	// 	let itemUrn = liElement.getAttribute('data-urn');
+	// 	launchViewer2(itemUrn);
+	// }
 });
 
 
@@ -101,12 +109,17 @@ async function loadModelListAsync() {
 
 	let tags = '';
 	for (let i = 0; i < models.length; i++) {
-		let badge = '';
+		const urn = models[i].urn;
+		let badgeOpen = `<span class="badge badge-open" data-urn="${urn}" name="badgeOpen">Open</span>`
+		let badgeClear = '';
+		let badgeDownload = `<span class="badge badge-download" data-urn="${urn}" name="badgeDownload">Download</span>`;
 		if (cachedUrns.urns.hasOwnProperty(models[i].urn)) {
-			// badge = '<span class="badge badge-offline">Offline</span>'
-			badge = `<span class="badge badge-offline" data-urn="${models[i].urn}" name="badgeOffline">Offline</span>`;
+			badgeClear = `<span class="badge badge-clear" data-urn="${urn}" name="badgeClear">Clear</span>`;
+			badgeDownload = '';
+			// badge = `<span class="badge badge-offline" data-urn="${models[i].urn}" name="badgeOffline">Offline</span>`;
 		}
-		let item = `<li class="list-group-item" data-urn="${models[i].urn}">${badge}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
+		// let item = `<li class="list-group-item" data-urn="${models[i].urn}">${badge}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
+		let item = `<li class="list-group-item">${badgeOpen}${badgeDownload}${badgeClear}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
 		tags += item;
 	}
 
