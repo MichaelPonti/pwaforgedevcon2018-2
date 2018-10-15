@@ -96,7 +96,7 @@ document.getElementById('listModels').addEventListener('click', async function (
 //     <h5>Model 2</h5>
 //     <p>this is a description</p>
 // </li>
-async function loadModelListAsync() {
+async function loadModelListAsync2() {
 	let cachedUrns = await appDb.getCachedUrns();
 	if (!cachedUrns) {
 		cachedUrns = {};
@@ -126,9 +126,18 @@ async function loadModelListAsync() {
 	modelTag.innerHTML = tags;
 
 	attachBadgeHandlers();
-
-
 }
+
+async function loadModelListAsync() {
+	let cachedUrns = await appDb.getUrnDictAsync();
+	let models = getModels();
+
+	const modelTag = document.getElementById('listModels');
+}
+
+
+
+
 
 function attachBadgeHandlers() {
 	const badges = document.getElementsByName('badgeOffline');
@@ -141,6 +150,13 @@ function attachBadgeHandlers() {
 }
 
 (async function () {
-	await appDb.seedDataAsync();
+	// let urnDict = await appDb.getUrnDictAsync();
+	// await appDb.saveUrnToDictAsync(urn4);
+	// await appDb.saveUrnToDictAsync(urn3);
+
+	// await appDb.removeUrnFromDictAsync('xx');
+	// await appDb.removeUrnFromDictAsync(urn3);
+
+	//await appDb.seedDataAsync();
 	await loadModelListAsync();
 })();

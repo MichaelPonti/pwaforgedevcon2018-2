@@ -64,11 +64,71 @@ const appDb = (function () {
 		}
 	}
 
+	const CACHED_URN_ID = 'cachedUrns';
+	const SETTINGS_STORE_ID = 'settings';
+
+	function getCachedUrns2() {
+		return dbPromise.then(function (db) {
+			const tx = db.transaction(SETTINGS_STORE_ID, 'readonly');
+			const store = tx.objectStore(SETTINGS_STORE_ID);
+			return store.get(CACHED_URN_ID);
+		});
+	}
+
+	function setCachedUrns2(urns) {
+		return dbPromise.then(function (db) {
+			const tx = db.transaction(SETTINGS_STORE_ID, 'readwrite');
+			const store = tx.objectStore(SETTINGS_STORE_ID);
+			const data = { id: CACHED_URN_ID, urns: urns };
+			return store.put(data).catch(function (e) {
+				tx.abort();
+				console.error(e);
+			}).then(function () {
+				console.log('cached urns settings updated');
+			});
+		});
+	}
+
+	async function getUrnDictAsync() {
+		var urnList = await getCachedUrns2();
+		if (urnList === null || urnList === undefined) {
+			return { };
+		} else {
+			return urnList.urns;
+		}
+	}
+
+	async function saveUrnDictAsync(urnDict) {
+		await setCachedUrns2(urnDict);
+	}
+
+	async function saveUrnToDictAsync(urn) {
+		let data = await getUrnDictAsync();
+		data[urn] = true;
+		await setCachedUrns2(data);
+	}
+
+	async function removeUrnFromDictAsync(urn) {
+		let data = await getUrnDictAsync();
+		if (data.hasOwnProperty(urn)) {
+			delete data[urn];
+			await setCachedUrns2(data);
+		}
+	}
+
+
+
+
 
 	return {
 		getCachedUrns: (getCachedUrns),
 		setCachedUrns: (setCachedUrns),
 		deleteCachedUrn: (deleteCachedUrn),
-		seedDataAsync: (seedDataAsync)
+		seedDataAsync: (seedDataAsync),
+
+		getUrnDictAsync: (getUrnDictAsync),
+		saveUrnDictAsync: (saveUrnDictAsync),
+		saveUrnToDictAsync: (saveUrnToDictAsync),
+		removeUrnFromDictAsync: (removeUrnFromDictAsync)
 	}
 })();
