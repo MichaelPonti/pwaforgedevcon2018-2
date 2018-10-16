@@ -67,7 +67,6 @@ document.getElementById('listModels').addEventListener('click', async function (
 				console.log('badgeDownload pressed');
 				break;
 			case 'badgeClear':
-				// const urn = event.target.getAttribute('data-urn');
 				await SwComms.deleteFromCache(urn);
 				await loadModelListAsync();
 				break;
@@ -76,12 +75,6 @@ document.getElementById('listModels').addEventListener('click', async function (
 				break;
 		}
 	}
-
-	// const liElement = getParentListItemContainer(event.target);
-	// if (liElement) {
-	// 	let itemUrn = liElement.getAttribute('data-urn');
-	// 	launchViewer2(itemUrn);
-	// }
 });
 
 
@@ -96,47 +89,30 @@ document.getElementById('listModels').addEventListener('click', async function (
 //     <h5>Model 2</h5>
 //     <p>this is a description</p>
 // </li>
-async function loadModelListAsync2() {
-	let cachedUrns = await appDb.getCachedUrns();
-	if (!cachedUrns) {
-		cachedUrns = {};
-		cachedUrns[urn4] = true;
-		await appDb.setCachedUrns(cachedUrns);
-	}
-	const models = getModels();
-	const modelTag = document.getElementById('listModels');
-	modelTag.innerHTML = '';
-
-	let tags = '';
-	for (let i = 0; i < models.length; i++) {
-		const urn = models[i].urn;
-		let badgeOpen = `<span class="badge badge-open" data-urn="${urn}" name="badgeOpen">Open</span>`
-		let badgeClear = '';
-		let badgeDownload = `<span class="badge badge-download" data-urn="${urn}" name="badgeDownload">Download</span>`;
-		if (cachedUrns.urns.hasOwnProperty(models[i].urn)) {
-			badgeClear = `<span class="badge badge-clear" data-urn="${urn}" name="badgeClear">Clear</span>`;
-			badgeDownload = '';
-			// badge = `<span class="badge badge-offline" data-urn="${models[i].urn}" name="badgeOffline">Offline</span>`;
-		}
-		// let item = `<li class="list-group-item" data-urn="${models[i].urn}">${badge}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
-		let item = `<li class="list-group-item">${badgeOpen}${badgeDownload}${badgeClear}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
-		tags += item;
-	}
-
-	modelTag.innerHTML = tags;
-
-	attachBadgeHandlers();
-}
-
 async function loadModelListAsync() {
 	let cachedUrns = await appDb.getUrnDictAsync();
 	let models = getModels();
 
 	const modelTag = document.getElementById('listModels');
+	modelTag.innerHTML = '';
+	let tags = '';
+
+	for (let i = 0; i < models.length; i++) {
+		const urn = models[i].urn;
+		let badgeOpen = `<span class="badge badge-open" data-urn="${urn}" name="badgeOpen">Open</span>`;
+		let badgeClear = '';
+		let badgeDownload = `<span class="badge badge-download" data-urn="${urn}" name="badgeDownload">Download</span>`;
+		if (cachedUrns.hasOwnProperty(models[i].urn)) {
+			badgeClear = `<span class="badge badge-clear" data-urn="${urn}" name="badgeClear">Clear</span>`;
+			badgeDownload = '';
+		}
+		let item = `<li class="list-group-item">${badgeOpen}${badgeDownload}${badgeClear}<h5>${models[i].name} rev: ${models[i].rev}</h5><p>${models[i].description}</p></li>`;
+		tags += item;
+	}
+
+	modelTag.innerHTML = tags;
+	attachBadgeHandlers();
 }
-
-
-
 
 
 function attachBadgeHandlers() {
@@ -150,13 +126,5 @@ function attachBadgeHandlers() {
 }
 
 (async function () {
-	// let urnDict = await appDb.getUrnDictAsync();
-	// await appDb.saveUrnToDictAsync(urn4);
-	// await appDb.saveUrnToDictAsync(urn3);
-
-	// await appDb.removeUrnFromDictAsync('xx');
-	// await appDb.removeUrnFromDictAsync(urn3);
-
-	//await appDb.seedDataAsync();
 	await loadModelListAsync();
 })();

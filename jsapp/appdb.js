@@ -26,44 +26,6 @@ const appDb = (function () {
 	}
 
 
-	function getCachedUrns() {
-		return dbPromise.then(function (db) {
-			var tx = db.transaction('settings', 'readonly');
-			var store = tx.objectStore('settings');
-			return store.get('cachedUrns');
-		});
-	}
-
-
-	function setCachedUrns(urns) {
-
-		return dbPromise.then(function (db) {
-			const tx = db.transaction('settings', 'readwrite');
-			const store = tx.objectStore('settings');
-			const data = createCachedUrnsObject(urns);
-			return store.put(data).catch(function (e) {
-				tx.abort();
-				console.error(e);
-			}).then(function () {
-				console.log('settings updated');
-			});
-		});
-	}
-
-	async function deleteCachedUrn(urn) {
-		// something.
-		cacheData = await getCachedUrns();
-		delete cacheData.urns[urn];
-		await setCachedUrns(cacheData);
-	}
-
-	async function seedDataAsync() {
-		var data = await getCachedUrns();
-		if (!data || data === undefined) {
-			await setCachedUrns(createCachedUrnsObject({ }));
-		}
-	}
-
 	const CACHED_URN_ID = 'cachedUrns';
 	const SETTINGS_STORE_ID = 'settings';
 
@@ -121,13 +83,7 @@ const appDb = (function () {
 
 
 	return {
-		getCachedUrns: (getCachedUrns),
-		setCachedUrns: (setCachedUrns),
-		deleteCachedUrn: (deleteCachedUrn),
-		seedDataAsync: (seedDataAsync),
-
 		getUrnDictAsync: (getUrnDictAsync),
-		saveUrnDictAsync: (saveUrnDictAsync),
 		saveUrnToDictAsync: (saveUrnToDictAsync),
 		removeUrnFromDictAsync: (removeUrnFromDictAsync)
 	}

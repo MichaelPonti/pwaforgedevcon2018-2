@@ -6,7 +6,7 @@ self.importScripts('jsapp/appdb.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '019';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '023';
 
 
 const SERVER_PREFIX = '/';
@@ -150,12 +150,13 @@ async function cacheRequest(url, response) {
 
 
 async function cleanModelFromCacheAsync(urn) {
+	await appDb.removeUrnFromDictAsync(urn);
 	const cache = await caches.open('models');
 	const urls = await cache.keys();
 	const urlsToDelete = urls.filter(req => req.url.includes(urn));
-	await appDb.deleteCachedUrn(urn);
 	return Promise.all(urlsToDelete.map(req => cache.delete(req)));
 }
+
 
 
 
@@ -187,8 +188,6 @@ async function messageAsync(event) {
 
 
 async function addUrnToOffline(urn) {
-	const cacheData = await appDb.getCachedUrns();
-	cacheData.urns[urn] = true;
-	await appDb.setCachedUrns(cacheData.urns);
+	await appDb.saveUrnToDictAsync(urn);
 }
 
