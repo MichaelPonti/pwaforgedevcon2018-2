@@ -16,5 +16,6 @@ async function downloadModelFiles(urn) {
 	}
 
 	const retUrls = await Promise.all(fetches);
+	return retUrls;
 }
 
