@@ -65,6 +65,8 @@ document.getElementById('listModels').addEventListener('click', async function (
 		switch(badgeName) {
 			case 'badgeDownload':
 				console.log('badgeDownload pressed');
+				await SwComms.preDownloadUrn(urn);
+				await loadModelListAsync();
 				break;
 			case 'badgeClear':
 				await SwComms.deleteFromCache(urn);

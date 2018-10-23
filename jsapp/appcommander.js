@@ -47,10 +47,16 @@ const SwComms = (function () {
 		return genericServiceWorkComm('deleteModel', data);
 	}
 
+	function preDownloadUrn(urn) {
+		const data = { urn: urn };
+		return genericServiceWorkComm('preloadModel', data);
+	}
+
 
 	return {
 		cacheModel: (cacheModel),
 		cacheOff: (cacheOff),
-		deleteFromCache: (deleteFromCache)
+		deleteFromCache: (deleteFromCache),
+		preDownloadUrn: (preDownloadUrn)
 	}
 })();

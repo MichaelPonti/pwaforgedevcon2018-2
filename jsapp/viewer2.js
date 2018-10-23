@@ -1,11 +1,20 @@
+
+
 const options = {
 	env: 'AutodeskProduction',
 	useADP: false,
 	getAccessToken: function (callback) {
-		fetch('https://forgeapidevcon2018.azurewebsites.net/api/forgeviewerauth')
+		const url = 'https://forgeapidevcon2018.azurewebsites.net/api/forgeviewerauth';
+		const url2 = 'https://forgeutils.azurewebsites.net/api/forgeauth';
+		fetch(url2)
 			.then((response) => response.json())
 			.then((json) => callback(json.access_token, json.expires_in));
 	}
+};
+
+
+const config3d = {
+	extensions: [ 'PartOrderExtension' ]
 };
 
 
@@ -36,7 +45,7 @@ function onDocumentLoadSuccess() {
 let viewerApp = null;
 Autodesk.Viewing.Initializer(options, () => {
 	viewerApp = new Autodesk.Viewing.ViewingApplication('MyViewerDiv');
-	viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D);
+	viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
 	viewerApp.loadDocument('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
 });
 

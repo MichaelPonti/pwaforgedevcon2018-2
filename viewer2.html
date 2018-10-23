@@ -10,41 +10,29 @@
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.min.css">
-    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.min.js"></script>
+	<script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.min.js"></script>
+	<script src="jsapp/partorderext.js"></script>
+	<link rel="stylesheet" href="cssapp/stylesheet.css">
 
 	<style>
-		#MyViewerDiv {
-			width: 100%;
-			height: 100%;
-			margin: 0px 0px 0px 0px;
-			background-color: #F0F8FF;
-		}
 
-		#outerViewerDiv {
-			height: calc(100vh - 80px);
-		}
-
-		.appButtonStyle {
-			width: 120px;
-			height: 40px;
-			margin-right: 12px;
-			margin-top: 20px;
-			margin-bottom: 20px;
-		}
-
-		.buttonRow {
-			height: 80px;
-		}
 	</style>
 </head>
 
 <body>
-	<!-- <div class="buttonRow">
-		<button type="button" class="btn btn-primary" id="btnGoBack">BACK</button>
+	<div id="MyViewerDiv"></div>
+	<!-- <div id="orderOverlay">
+		<h3>Order Part</h3>
+		<div id="orderExpander">
+			<form id="orderPartForm">
+				<div class="form-group">
+					<label for="txtPartId"></label>
+					<input id="txtPartId" class="form-control" type="text" placeholder="enter part id" />
+				</div>
+			</form>
+		</div>
 	</div> -->
-	<div id="outerViewerDiv">
-		<div id="MyViewerDiv"></div>
-	</div>
+
 	<script src="assets/plugins/jquery/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="jsapp/generalutils.js"></script>
