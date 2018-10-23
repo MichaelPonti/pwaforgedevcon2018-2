@@ -5,7 +5,7 @@ const options = {
 	useADP: false,
 	getAccessToken: function (callback) {
 		const url = 'https://forgeapidevcon2018.azurewebsites.net/api/forgeviewerauth';
-		const url2 = 'https://forgeutils.azurewebsites.net/api/ForgeAuth';
+		const url2 = 'https://forgeutils.azurewebsites.net/api/forgeauth';
 		fetch(url2)
 			.then((response) => response.json())
 			.then((json) => callback(json.access_token, json.expires_in));

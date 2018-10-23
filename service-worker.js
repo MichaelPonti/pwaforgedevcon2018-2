@@ -3,14 +3,15 @@
 
 self.importScripts('jsapp/idb.js');
 self.importScripts('jsapp/appdb.js');
+self.importScripts('jsapp/batchDownload.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '027';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '033';
 
 
-const SERVER_PREFIX = '/';
-// const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
+// const SERVER_PREFIX = '/';
+const SERVER_PREFIX = '/pwaforgedevcon2018-2/';
 
 
 var shellFilesToCache = [
@@ -94,10 +95,10 @@ let urnToCache = null;
 
 
 async function fetchAsync(event) {
-	return fetch(event.request);
+	// return fetch(event.request);
 
 
-	if (event.request.url.endsWith('api/forgeviewerauth')) {
+	if (event.request.url.endsWith('api/forgeauth')) {
 		console.log('fetching viewer token online');
 		try {
 			const authResponse = await fetch(event.request);
@@ -181,7 +182,10 @@ async function messageAsync(event) {
 			event.ports[0].postMessage({ status: 'ok' });
 			break;
 		case 'preloadModel':
-			await downloadModelFiles(event.data.data.urn);
+			const urn = event.data.data.urn;
+			await addUrnToOffline(urn);
+			await downloadModelFiles(urn);
+			event.ports[0].postMessage({ status: 'ok' });
 			break;
 		case '':
 			break;
