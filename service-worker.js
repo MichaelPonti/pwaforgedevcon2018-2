@@ -9,7 +9,7 @@ self.importScripts('jsapp/batchDownload.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '037';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '038';
 
 
 // const SERVER_PREFIX = '/';
@@ -87,12 +87,12 @@ self.addEventListener('install', function (event) {
 });
 
 async function installAsync(event) {
-	try {
-		const cache = await caches.open(SHELL_CACHE_NAME);
-		await cache.addAll(shellFilesToCache);	
-	} catch (err) {
-		console.log(err);
-	}
+	// const cache = await caches.open(SHELL_CACHE_NAME);
+	// await cache.addAll(shellFilesToCache);
+
+	caches.open(SHELL_CACHE_NAME).then(cache => {
+		return cache.addAll(shellFilesToCache).catch(err => console.log(err));
+	});
 }
 
 
