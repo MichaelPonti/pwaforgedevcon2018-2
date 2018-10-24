@@ -92,8 +92,18 @@ async function installAsync(event) {
 	// const cache = await caches.open(SHELL_CACHE_NAME);
 	// await cache.addAll(shellFilesToCache);
 
-	caches.open(SHELL_CACHE_NAME).then(cache => {
-		return cache.addAll(shellFilesToCache).catch(err => console.log(err));
+	// caches.open(SHELL_CACHE_NAME).then(cache => {
+	// 	return cache.addAll(shellFilesToCache).catch(err => console.log(err));
+	// });
+
+	return caches.open(SHELL_CACHE_NAME).then(function (cache) {
+		return Promise.all(
+			shellFilesToCache.map(function (url) {
+				return cache.add(url).catch(function (reason) {
+					return console.log(`${url} failed: ${reason}`);
+				});
+			})
+		);
 	});
 }
 
