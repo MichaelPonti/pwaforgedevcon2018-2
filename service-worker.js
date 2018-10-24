@@ -6,8 +6,10 @@ self.importScripts('jsapp/appdb.js');
 self.importScripts('jsapp/batchDownload.js');
 
 
+
+
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '036';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '037';
 
 
 // const SERVER_PREFIX = '/';
