@@ -7,7 +7,7 @@ self.importScripts('jsapp/batchDownload.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '033';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '036';
 
 
 // const SERVER_PREFIX = '/';
@@ -26,6 +26,25 @@ var shellFilesToCache = [
     'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/lmvworker.min.js',
 	'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/locales/en/allstrings.json',
 	'https://fonts.autodesk.com/ArtifaktElement/WOFF2/Artifakt%20Element%20Regular.woff2',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.css',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.js',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/lmvworker.js',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/locales/en/allstrings.json',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SharpHighlights_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SharpHighlights_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/boardwalk_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/boardwalk_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VCarrows.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VCarrowsS0.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VCarrowsS1.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VCcontext.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VCcontextS.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VCedge1.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VChome.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/VChomeS.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/cardinalPoint.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/centerMarker_X.png',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/textures/radial-fade-grid.png',
 
 	// app local URLS
 	`${SERVER_PREFIX}`,
@@ -42,9 +61,12 @@ var shellFilesToCache = [
 	
 	`${SERVER_PREFIX}jsapp/appcommander.js`,
 	`${SERVER_PREFIX}jsapp/appdb.js`,
+	`${SERVER_PREFIX}jsapp/batchdownload.js`,
+	`${SERVER_PREFIX}jsapp/customers.js`,
 	`${SERVER_PREFIX}jsapp/generalutils.js`,
 	`${SERVER_PREFIX}jsapp/idb.js`,
 	`${SERVER_PREFIX}jsapp/index.js`,
+	`${SERVER_PREFIX}jsapp/partorderext.js`,
 	`${SERVER_PREFIX}jsapp/viewer2.js`,
 ];
 
@@ -107,14 +129,21 @@ async function fetchAsync(event) {
 			return authResponse;
 		}
 		catch(err) {
-			console.error(err);
+			console.log(err);
 			return caches.match(event.request);
 		}
 	}
 
 
+	if (event.request.url.indexOf('viewer2.html') !== -1) {
+		console.log('found viewer file');
+		const viewerResponse = await caches.match(event.request, { 'ignoreSearch': true });
+		return viewerResponse;
+	}
 
-	const response = await caches.match(event.request);
+
+
+	const response = await caches.match(event.request, { 'ignoreSearch': true });
 	if (response) {
 		console.log(`cached: ${event.request.url}`);
 		return response;
@@ -184,7 +213,8 @@ async function messageAsync(event) {
 		case 'preloadModel':
 			const urn = event.data.data.urn;
 			await addUrnToOffline(urn);
-			await downloadModelFiles(urn);
+			var downloadUrls = await downloadModelFiles(urn);
+			console.log(downloadUrls);
 			event.ports[0].postMessage({ status: 'ok' });
 			break;
 		case '':
