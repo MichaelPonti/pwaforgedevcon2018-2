@@ -87,8 +87,12 @@ self.addEventListener('install', function (event) {
 });
 
 async function installAsync(event) {
-	const cache = await caches.open(SHELL_CACHE_NAME);
-	await cache.addAll(shellFilesToCache);
+	try {
+		const cache = await caches.open(SHELL_CACHE_NAME);
+		await cache.addAll(shellFilesToCache);	
+	} catch (err) {
+		console.log(err);
+	}
 }
 
 
