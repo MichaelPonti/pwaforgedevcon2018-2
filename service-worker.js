@@ -86,6 +86,8 @@ self.addEventListener('install', function (event) {
 	event.waitUntil(installAsync(event));
 });
 
+// https://github.com/GrosSacASac/server-in-the-browser/blob/master/client/js/service_worker.js#L168
+
 async function installAsync(event) {
 	// const cache = await caches.open(SHELL_CACHE_NAME);
 	// await cache.addAll(shellFilesToCache);
