@@ -5,10 +5,11 @@ async function downloadModelFiles(urn) {
 	const json = await urlsRequest.json();
 
 	const cache = await caches.open('models');
+	const authCache = await caches.open('authtokens');
 
 	const authenticationUrl = 'https://forgeutils.azurewebsites.net/api/forgeauth';
 	const authentication = await fetch(authenticationUrl);
-	await cache.put(authenticationUrl, authentication.clone());
+	await authCache.put(authenticationUrl, authentication.clone());
 	const authenticationJson = await authentication.json();
 	
 	const options = { headers: { 'Authorization': 'Bearer ' + authenticationJson.access_token } };

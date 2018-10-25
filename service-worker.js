@@ -9,7 +9,7 @@ self.importScripts('jsapp/batchDownload.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '038';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '042';
 
 
 // const SERVER_PREFIX = '/';
@@ -86,8 +86,6 @@ self.addEventListener('install', function (event) {
 	event.waitUntil(installAsync(event));
 });
 
-// https://github.com/GrosSacASac/server-in-the-browser/blob/master/client/js/service_worker.js#L168
-
 async function installAsync(event) {
 	// const cache = await caches.open(SHELL_CACHE_NAME);
 	// await cache.addAll(shellFilesToCache);
@@ -151,14 +149,6 @@ async function fetchAsync(event) {
 			return caches.match(event.request);
 		}
 	}
-
-
-	if (event.request.url.indexOf('viewer2.html') !== -1) {
-		console.log('found viewer file');
-		const viewerResponse = await caches.match(event.request, { 'ignoreSearch': true });
-		return viewerResponse;
-	}
-
 
 
 	const response = await caches.match(event.request, { 'ignoreSearch': true });
