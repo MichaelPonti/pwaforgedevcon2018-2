@@ -9,7 +9,7 @@ self.importScripts('jsapp/batchDownload.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '042';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '043';
 
 
 // const SERVER_PREFIX = '/';
@@ -134,7 +134,6 @@ let urnToCache = null;
 
 async function fetchAsync(event) {
 	// return fetch(event.request);
-
 
 	if (event.request.url.endsWith('api/forgeauth')) {
 		console.log('fetching viewer token online');
