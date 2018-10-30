@@ -65,10 +65,12 @@ document.getElementById('listModels').addEventListener('click', async function (
 		switch(badgeName) {
 			case 'badgeDownload':
 				console.log('badgeDownload pressed');
-				event.target.innerText = 'downloading';
-				await SwComms.preDownloadUrn(urn);
-				event.target.innerText = 'download';
-				await loadModelListAsync();
+				if (event.target.innerText !== 'downloading') {
+					event.target.innerText = 'downloading';
+					await SwComms.preDownloadUrn(urn);
+					await loadModelListAsync();
+					event.target.innerText = 'download';	
+				}
 				break;
 			case 'badgeClear':
 				await SwComms.deleteFromCache(urn);
@@ -128,6 +130,9 @@ function attachBadgeHandlers() {
 		});
 	}
 }
+
+
+
 
 (async function () {
 	await loadModelListAsync();
