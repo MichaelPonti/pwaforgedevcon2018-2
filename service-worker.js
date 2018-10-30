@@ -9,7 +9,7 @@ self.importScripts('jsapp/batchDownload.js');
 
 
 const SHELL_CACHE_NAME_PREFIX = 'app-shell-';
-const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '042';
+const SHELL_CACHE_NAME = SHELL_CACHE_NAME_PREFIX + '044';
 
 
 // const SERVER_PREFIX = '/';
@@ -68,7 +68,6 @@ var shellFilesToCache = [
 	`${SERVER_PREFIX}jsapp/generalutils.js`,
 	`${SERVER_PREFIX}jsapp/idb.js`,
 	`${SERVER_PREFIX}jsapp/index.js`,
-	`${SERVER_PREFIX}jsapp/partorderext.js`,
 	`${SERVER_PREFIX}jsapp/viewer2.js`,
 ];
 
@@ -87,13 +86,6 @@ self.addEventListener('install', function (event) {
 });
 
 async function installAsync(event) {
-	// const cache = await caches.open(SHELL_CACHE_NAME);
-	// await cache.addAll(shellFilesToCache);
-
-	// caches.open(SHELL_CACHE_NAME).then(cache => {
-	// 	return cache.addAll(shellFilesToCache).catch(err => console.log(err));
-	// });
-
 	return caches.open(SHELL_CACHE_NAME).then(function (cache) {
 		return Promise.all(
 			shellFilesToCache.map(function (url) {
@@ -133,9 +125,6 @@ let urnToCache = null;
 
 
 async function fetchAsync(event) {
-	// return fetch(event.request);
-
-
 	if (event.request.url.endsWith('api/forgeauth')) {
 		console.log('fetching viewer token online');
 		try {
